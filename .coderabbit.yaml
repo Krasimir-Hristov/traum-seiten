@@ -3,11 +3,16 @@ language: "en-US"
 
 reviews:
   profile: "assertive" # Strict senior reviewer tone
-  request_review_command: "coderabbit review"
   auto_review:
     enabled: true
     drafts: false
   high_level_summary: true
+  path_filters:
+    - "!**/node_modules/**"
+    - "!**/.next/**"
+    - "!**/dist/**"
+    - "!**/package-lock.json"
+    - "!**/uv.lock"
 
 # Highly Detailed Instructions for the AI Reviewer
 instructions: >
@@ -20,31 +25,24 @@ instructions: >
 
   CRITICAL ARCHITECTURAL RULES YOU MUST ENFORCE:
   1. Next.js 16.1.6 Proxy (No Middleware): 
-     - STRICT RULE: Do NOT use or suggest `middleware.ts`. It is deprecated and poses security/execution risks in this stack.
-     - Always enforce the use of `proxy.ts` for network boundaries, session refresh, and optimistic auth checks.
-     - Ensure auth validation (DB lookups) happens in Server Components, while `proxy.ts` only handles routing/token presence.
+     - STRICT RULE: Do NOT use or suggest `middleware.ts`. It is deprecated.
+     - Always enforce the use of `proxy.ts` for network boundaries.
   
-  2. The 'Anthology' Data Model:
-     - The hierarchy is: ChildProfile -> Book (Anthology) -> Multiple Stories (8 Pages each). 
-     - Ensure all DB queries and Pydantic schemas respect this One-to-Many relationship.
-     - Stories can have a `child_id` (Personalized) or `null` (Universal).
+  2. The 'Anthology' Data Model Traceability:
+     - The hierarchy must always be: User -> ChildProfile -> Book (Anthology) -> Multiple Stories (8 Pages each). 
+     - A Book belongs to a ChildProfile (via child_id). 
+     - Stories belong to a Book (via book_id).
+     - Ensure all DB queries and Pydantic schemas respect this relationship.
   
   3. Type Safety & API Contracts:
+     - STRICT RULE: Zero-tolerance for the `any` type in TypeScript.
      - Cross-check that Next.js TypeScript interfaces EXACTLY match FastAPI Pydantic schemas.
-     - Reject any PR where frontend sends camelCase if backend expects snake_case (unless explicitly mapped).
 
   4. Mock AI Mode:
-     - Ensure all AI generation endpoints respect the `MOCK_AI_MODE` env variable. If true, they must bypass OpenRouter/Image APIs and return static/dicebear mock data.
+     - Ensure all AI generation endpoints respect the `MOCK_AI_MODE` env variable.
 
   5. UI & Performance:
-     - Ensure 'framer-motion' is used efficiently. Reject heavy animations that cause unnecessary re-renders in Client Components.
+     - Reject heavy animations that cause unnecessary re-renders in Client Components.
 
 chat:
   enabled: true
-
-path_filters:
-  - "!**/node_modules/**"
-  - "!**/.next/**"
-  - "!**/dist/**"
-  - "!**/package-lock.json"
-  - "!**/uv.lock"
