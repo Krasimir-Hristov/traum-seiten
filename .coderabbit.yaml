@@ -1,18 +1,18 @@
 # CodeRabbit Configuration for Traumseiten Project
-language: "en-US"
+language: 'en-US'
 
 reviews:
-  profile: "assertive" # Strict senior reviewer tone
+  profile: 'assertive' # Strict senior reviewer tone
   auto_review:
     enabled: true
     drafts: false
   high_level_summary: true
   path_filters:
-    - "!**/node_modules/**"
-    - "!**/.next/**"
-    - "!**/dist/**"
-    - "!**/package-lock.json"
-    - "!**/uv.lock"
+    - '!**/node_modules/**'
+    - '!**/.next/**'
+    - '!**/dist/**'
+    - '!**/package-lock.json'
+    - '!**/uv.lock'
 
 # Highly Detailed Instructions for the AI Reviewer (The Architect & Auditor)
 instructions: >
@@ -66,4 +66,4 @@ instructions: >
   - ASSETS: Ensure AI-generated image prompts always reference the base character metadata.
 
 chat:
-  enabled: true
+  auto_reply: true
