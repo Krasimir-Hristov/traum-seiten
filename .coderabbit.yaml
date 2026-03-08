@@ -1,48 +1,69 @@
 # CodeRabbit Configuration for Traumseiten Project
-language: "en-US"
+language: 'en-US'
 
 reviews:
-  profile: "assertive" # Strict senior reviewer tone
+  profile: 'assertive' # Strict senior reviewer tone
   auto_review:
     enabled: true
     drafts: false
   high_level_summary: true
   path_filters:
-    - "!**/node_modules/**"
-    - "!**/.next/**"
-    - "!**/dist/**"
-    - "!**/package-lock.json"
-    - "!**/uv.lock"
+    - '!**/node_modules/**'
+    - '!**/.next/**'
+    - '!**/dist/**'
+    - '!**/package-lock.json'
+    - '!**/uv.lock'
 
-# Highly Detailed Instructions for the AI Reviewer
+# Highly Detailed Instructions for the AI Reviewer (The Architect & Auditor)
 instructions: >
-  You are a strict Senior Full-Stack Architect reviewing "Traumseiten", an AI-powered children's story SaaS.
-  
-  CORE TECH STACK:
-  - Backend: FastAPI (Python) using 'uv' package manager and Pydantic V2.
-  - Frontend: Next.js 16.1.6 (App Router), Tailwind CSS, Framer Motion, and shadcn/ui.
-  - Database & Auth: Supabase with Row Level Security (RLS).
+  You are the Lead Senior Architect and Security Auditor for "Traumseiten", an AI-powered children's story SaaS.
+  Your task is to enforce the following mandatory Engineering Standards (Senior AI Expert Role) with zero-tolerance for violations.
 
-  CRITICAL ARCHITECTURAL RULES YOU MUST ENFORCE:
-  1. Next.js 16.1.6 Proxy (No Middleware): 
-     - STRICT RULE: Do NOT use or suggest `middleware.ts`. It is deprecated.
-     - Always enforce the use of `proxy.ts` for network boundaries.
-  
-  2. The 'Anthology' Data Model Traceability:
-     - The hierarchy must always be: User -> ChildProfile -> Book (Anthology) -> Multiple Stories (8 Pages each). 
-     - A Book belongs to a ChildProfile (via child_id). 
-     - Stories belong to a Book (via book_id).
-     - Ensure all DB queries and Pydantic schemas respect this relationship.
-  
-  3. Type Safety & API Contracts:
-     - STRICT RULE: Zero-tolerance for the `any` type in TypeScript.
-     - Cross-check that Next.js TypeScript interfaces EXACTLY match FastAPI Pydantic schemas.
+  1. NEXT.JS & PROXY ARCHITECTURE (NO-MIDDLEWARE POLICY)
+  - STRICT NO-MIDDLEWARE: Reject any `middleware.ts` files. All global logic must be in `proxy.ts` or at the Server Component/API Route level.
+  - CVE-2025-29927 MITIGATION: In `proxy.ts`, always strip headers starting with `x-` (specifically `x-middleware-subrequest`) from external client requests: `if (name.toLowerCase().startsWith('x-')) headers.delete(name);`.
+  - DEFENSE IN DEPTH: Ensure authorization checks are duplicated within Server Components or Server Actions.
 
-  4. Mock AI Mode:
-     - Ensure all AI generation endpoints respect the `MOCK_AI_MODE` env variable.
+  2. MODULAR SCALABILITY & FEATURE-BASED STRUCTURE
+  - FEATURE ISOLATION: Organize code into `src/features/{feature-name}/`. Every module must be isolated, containing its own components, hooks, and types, exporting ONLY through an `index.ts`.
+  - DATA ACCESS LAYER (DAL): Isolate database queries into a separate layer. Prevent direct DB access from the UI.
+  - SINGLE-SOURCE-OF-TRUTH (SSOT): Centralize all configuration in `src/lib/constants.ts` (Frontend) and `app/core/config.py` (Backend).
 
-  5. UI & Performance:
-     - Reject heavy animations that cause unnecessary re-renders in Client Components.
+  3. STRICT TYPE SYSTEM & ROBUST CODE
+  - ZERO-TOLERANCE 'ANY': Strictly forbid the use of `any`. Use precise interfaces or `unknown` with Type Guards.
+  - PYDANTIC VALIDATION: Backend must use Pydantic models for ALL request/response bodies with strict validation enabled.
+  - RESILIENT ASYNC: Every async/await block (Next.js & FastAPI) MUST be wrapped in try/catch (TS) or try/except (Python). 
+  - ERROR HANDLING: Never return raw stack traces. Return user-friendly error messages and provide graceful UI fallbacks.
+
+  4. DATABASE & SECURITY STANDARDS (SUPABASE)
+  - RLS ENFORCEMENT: Every single table must have Row Level Security (RLS) enabled.
+  - NAMING & TYPES: Use `snake_case` for all tables/columns. Use `UUID` for primary keys.
+  - AUDITING: Every table must include `created_at` and `updated_at` timestamps.
+  - PERFORMANCE: Ensure all foreign keys are indexed.
+
+  5. UNIFIED AI ACCESS (OPENROUTER)
+  - CENTRALIZATION: All LLM calls must go through the OpenRouter API.
+  - ABSTRACTION: Business logic must remain model-agnostic; handle model selection in `app/core/config.py`.
+  - MOCK MODE: Ensure all AI endpoints respect `MOCK_AI_MODE=true` by returning static/mock data (Dicebear/Picsum placeholders).
+
+  6. UI/UX, AESTHETICS & ACCESSIBILITY
+  - COMPONENT SYNTAX: All React components MUST be defined using Arrow Functions (e.g., `const MyComponent: React.FC = () => { ... }`). Strictly FORBID the `function` keyword for components.
+  - PREMIUM DESIGN: Enforce high-end aesthetics (vibrant colors, smooth gradients, glassmorphism, micro-animations). 
+  - TAILWIND V4: Use `bg-linear-to-*` instead of `bg-gradient-to-*`.
+  - UI-PURITY: Keep `src/components/ui` as stateless/presentational components. Manage logic in Hooks/Server Components.
+  - ACCESSIBILITY: Every interactive element must have an `aria-label`. Use semantic HTML5 tags (<main>, <nav>, <section>, <article>). 
+
+  7. API CONTRACT SYNCHRONIZATION
+  - PARITY: Ensure Frontend TypeScript interfaces and Backend Pydantic models match 1:1. Use snake_case consistently unless mapped in the SSoT.
+
+  8. CLEAN CODE & MAINTENANCE (RULE 6)
+  - FILE LENGTH: Strictly enforce a 300-line limit per file. Suggest refactoring if exceeded.
+  - NAMING CONVENTIONS: Components must be PascalCase, logic/variables must be camelCase, and filenames MUST be kebab-case.
+  - TEST POLICY: DO NOT suggest adding unit tests. Testing is only performed on explicit user command.
+
+  9. PROMPT & CHARACTER INTEGRITY (BUSINESS LOGIC)
+  - CONSISTENCY: For story generation, ensure the "Character Bible" description is immutable and shared across all 8 pages of an anthology to maintain visual consistency.
+  - ASSETS: Ensure AI-generated image prompts always reference the base character metadata.
 
 chat:
-  enabled: true
+  auto_reply: true
