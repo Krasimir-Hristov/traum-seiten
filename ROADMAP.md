@@ -13,6 +13,8 @@
 - [x] 1.2: Настройка на RLS (Row Level Security) политики в Supabase.
 - [x] 1.3: Създаване на Pydantic модели в бекенда (Domain Models).
 - [x] 1.4: Създаване на TypeScript интерфейси във фронтенда (Mirroring Models).
+- [x] 1.5: MVP Design: Генериране на лога, фавикони и основни дизайн екрани в Stitch (Landing, Auth, Bookshelf, Wizard, Reader) с локализация на немски.
+
 
 ## Phase 2: Authentication & Storage Setup
 
