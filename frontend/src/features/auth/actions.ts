@@ -2,6 +2,7 @@
 
 import { redirect } from 'next/navigation';
 import { createClient } from '@/lib/supabase/supabase-server';
+import { AUTH_ERRORS } from '@/features/auth/constants';
 
 interface AuthResult {
   error: string | null;
@@ -45,7 +46,7 @@ export const signUp = async (formData: FormData): Promise<AuthResult> => {
   const password = formData.get('password') as string;
   const fullName = formData.get('fullName') as string;
 
-  console.log('Attempting signup for:', email); // Server-side log
+  console.log('Signup attempt received');
 
   if (!email || !password) {
     return { error: 'Bitte E-Mail und Passwort eingeben.' };
@@ -79,17 +80,17 @@ export const signUp = async (formData: FormData): Promise<AuthResult> => {
       if (error.message.toLowerCase().includes('invalid') && error.message.toLowerCase().includes('email')) {
         return { error: 'Die E-Mail-Adresse ist ungültig. Bitte prüfe die Schreibweise.' };
       }
-      // Fallback: show exact error for debugging, remove in production
-      return { error: `Registrierung fehlgeschlagen: ${error.message}` };
+      // Fallback: generic user-safe message (raw Supabase text stays in server logs only)
+      return { error: 'Registrierung fehlgeschlagen. Bitte versuche es erneut.' };
     }
 
     // Check if user is created but session is null (Email confirmation required)
     if (data.user && !data.session) {
-      console.log('User created, confirmation required.');
-      return { error: 'Bitte bestätige deine E-Mail-Adresse! Wir haben dir einen Bestätigungslink geschickt. 📧' };
+      console.log('Signup succeeded — email confirmation required.');
+      return { error: AUTH_ERRORS.CONFIRM_EMAIL };
     }
 
-    console.log('Signup successful for:', data.user?.id);
+    console.log('Signup succeeded.');
   } catch (err) {
     console.error('Unexpected signup error:', err);
     return { error: 'Ein unerwarteter Fehler ist aufgetreten. Bitte versuche es erneut.' };

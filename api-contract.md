@@ -27,8 +27,7 @@ Handled via Supabase Auth (Client-side) with backend JWT verification.
 {
   "id": "uuid",
   "email": "string",
-  "full_name": "string | null",
-  "avatar_url": "string | null"
+  "full_name": "string | null"
 }
 ```
 

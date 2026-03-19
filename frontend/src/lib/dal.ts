@@ -4,7 +4,7 @@ import { createClient } from '@/lib/supabase/supabase-server';
 
 /**
  * Data Access Layer: Fetch the authenticated user.
- * Redirects to /anmelden if not authenticated.
+ * Redirects to /auth if not authenticated.
  * Use this in every protected Server Component (Defense in Depth).
  *
  * redirect() is kept OUTSIDE try/catch because Next.js implements redirects

@@ -43,7 +43,7 @@ const HomePage: React.FC = () => {
           <Link
             href='/auth'
             className='inline-flex h-14 items-center justify-center rounded-2xl bg-[#f4c434] px-8 text-base font-semibold text-black shadow-lg shadow-[#f4c434]/20 transition-all duration-300 hover:bg-[#f4c434]/90 hover:shadow-xl hover:shadow-[#f4c434]/30 hover:scale-[1.02]'
-            aria-label='Jetzt starten und anmelden'
+            aria-label='Jetzt starten – anmelden oder registrieren'
           >
             Jetzt starten →
           </Link>

@@ -6,7 +6,7 @@ import Header from '@/components/layout/header';
 
 export const metadata: Metadata = {
   title: 'Anmelden & Registrieren – Traumseiten',
-  description: 'Melde dich bei Traumseiten an или erstelle ein neues Konto, um magische Geschichten für dein Kind zu erstellen.',
+  description: 'Melde dich bei Traumseiten an oder erstelle ein neues Konto, um magische Geschichten für dein Kind zu erstellen.',
 };
 
 const LoginPage: React.FC = async () => {

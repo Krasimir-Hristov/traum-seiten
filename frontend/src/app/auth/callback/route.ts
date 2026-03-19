@@ -6,7 +6,7 @@ export const GET = async (request: NextRequest) => {
   const code = searchParams.get('code');
   const next = searchParams.get('next') ?? '/dashboard';
 
-    if (!code) {
+  if (!code) {
     return NextResponse.redirect(`${origin}/auth`);
   }
 

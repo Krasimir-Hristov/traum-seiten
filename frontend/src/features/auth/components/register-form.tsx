@@ -2,6 +2,7 @@
 
 import React, { useState, useTransition } from 'react';
 import { signUp } from '@/features/auth/actions';
+import { AUTH_ERRORS } from '@/features/auth/constants';
 import { PasswordField } from './password-field';
 
 import { inputClass } from '../utils/classes';
@@ -103,13 +104,13 @@ export const RegisterForm: React.FC = () => {
           role='alert'
           className='rounded-xl px-4 py-3 text-sm transition-all duration-300'
           style={{
-            background: error === 'IDENTIFIER_CONFIRM_EMAIL' ? 'rgba(244,196,52,0.1)' : 'rgba(239,68,68,0.10)',
-            border: error === 'IDENTIFIER_CONFIRM_EMAIL' ? '1px solid rgba(244,196,52,0.25)' : '1px solid rgba(239,68,68,0.25)',
-            color: error === 'IDENTIFIER_CONFIRM_EMAIL' ? '#f4c434' : '#fca5a5',
+            background: error === AUTH_ERRORS.CONFIRM_EMAIL ? 'rgba(244,196,52,0.1)' : 'rgba(239,68,68,0.10)',
+            border: error === AUTH_ERRORS.CONFIRM_EMAIL ? '1px solid rgba(244,196,52,0.25)' : '1px solid rgba(239,68,68,0.25)',
+            color: error === AUTH_ERRORS.CONFIRM_EMAIL ? '#f4c434' : '#fca5a5',
           }}
         >
-          {error === 'IDENTIFIER_CONFIRM_EMAIL' 
-            ? 'Bitte bestätige deine E-Mail-Adresse! Wir haben dir einen Bestätigungslink geschickt. 📧' 
+          {error === AUTH_ERRORS.CONFIRM_EMAIL
+            ? 'Bitte bestätige deine E-Mail-Adresse! Wir haben dir einen Bestätigungslink geschickt. 📧'
             : error}
         </div>
       )}
