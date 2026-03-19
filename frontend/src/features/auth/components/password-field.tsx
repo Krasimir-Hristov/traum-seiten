@@ -75,29 +75,11 @@ export const PasswordField: React.FC<PasswordFieldProps> = ({
           required
           minLength={6}
           placeholder='••••••••'
-          className='w-full rounded-xl border px-4 py-3 pr-12 text-white placeholder:text-white/25 bg-white/5 transition-all duration-200 focus:outline-none'
-          style={
+          className={`w-full rounded-xl border px-4 py-3 pr-12 text-white placeholder:text-white/25 bg-white/5 transition-all duration-200 focus:outline-none ${
             hasError
-              ? {
-                  borderColor: 'rgba(239,68,68,0.5)',
-                  boxShadow: '0 0 0 2px rgba(239,68,68,0.15)',
-                }
-              : { borderColor: 'rgba(255,255,255,0.12)' }
-          }
-          onFocus={(e) => {
-            if (!hasError) {
-              e.currentTarget.style.borderColor = 'rgba(244,196,52,0.60)';
-              e.currentTarget.style.boxShadow =
-                '0 0 0 2px rgba(244,196,52,0.15)';
-            }
-          }}
-          onBlur={(e) => {
-            if (!hasError) {
-              e.currentTarget.style.borderColor = 'rgba(255,255,255,0.12)';
-              e.currentTarget.style.boxShadow = 'none';
-            }
-          }}
-          aria-label={label}
+              ? 'border-red-500/50 shadow-[0_0_0_2px_rgba(239,68,68,0.15)] focus:border-red-500/50 focus:shadow-[0_0_0_2px_rgba(239,68,68,0.15)] focus:ring-0'
+              : 'border-white/10 focus:border-[#f4c434]/60 focus:ring-2 focus:ring-[#f4c434]/15'
+          }`}
         />
         <button
           type='button'

@@ -63,6 +63,7 @@
   --radius-4xl: calc(var(--radius) * 2.6);
 
   /* === Traumseiten Brand Tokens === */
+  /* Divergence is expected: These are authoritative source-of-truth brand tokens, independent of standard Tailwind variables. */
   --ts-bg-deep:       #0d0d1a;
   --ts-bg-surface:    #1a1a2e;
   --ts-bg-card:       #12122a;
@@ -100,7 +101,7 @@
   --border: rgba(255, 255, 255, 0.08);
   --input: rgba(255, 255, 255, 0.07);
   --ring: rgba(244, 196, 52, 0.50);
-  --chart-1: #f4c434;
+  --chart-1: oklch(0.82 0.16 88);
   --chart-2: oklch(0.623 0.214 259.815);
   --chart-3: oklch(0.546 0.245 262.881);
   --chart-4: oklch(0.488 0.243 264.376);
@@ -116,34 +117,7 @@
   --sidebar-ring: rgba(244, 196, 52, 0.50);
 }
 
-.dark {
-  --background: #0d0d1a;
-  --foreground: #ffffff;
-  --card: #12122a;
-  --card-foreground: #ffffff;
-  --popover: #1a1a2e;
-  --popover-foreground: #ffffff;
-  --primary: #f4c434;
-  --primary-foreground: #0d0d1a;
-  --secondary: #1a1a2e;
-  --secondary-foreground: rgba(255, 255, 255, 0.60);
-  --muted: #1a1a2e;
-  --muted-foreground: rgba(255, 255, 255, 0.45);
-  --accent: #f4c434;
-  --accent-foreground: #0d0d1a;
-  --destructive: #ef4444;
-  --border: rgba(255, 255, 255, 0.08);
-  --input: rgba(255, 255, 255, 0.07);
-  --ring: rgba(244, 196, 52, 0.50);
-  --sidebar: #12122a;
-  --sidebar-foreground: #ffffff;
-  --sidebar-primary: #f4c434;
-  --sidebar-primary-foreground: #0d0d1a;
-  --sidebar-accent: #1a1a2e;
-  --sidebar-accent-foreground: rgba(255, 255, 255, 0.60);
-  --sidebar-border: rgba(255, 255, 255, 0.08);
-  --sidebar-ring: rgba(244, 196, 52, 0.50);
-}
+
 
 @layer base {
   * {

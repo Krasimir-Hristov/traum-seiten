@@ -4,9 +4,7 @@ import React, { useState, useTransition } from 'react';
 import { signIn } from '@/features/auth/actions';
 import { PasswordField } from './password-field';
 
-const inputClass =
-  'w-full rounded-xl border border-white/10 px-4 py-3 text-white placeholder:text-white/25 ' +
-  'bg-white/5 transition-all duration-200 focus:outline-none focus:border-[#f4c434]/60 focus:ring-2 focus:ring-[#f4c434]/15';
+import { inputClass } from '../utils/classes';
 
 export const LoginForm: React.FC = () => {
   const [error, setError] = useState<string | null>(null);
@@ -45,7 +43,6 @@ export const LoginForm: React.FC = () => {
           required
           placeholder='name@beispiel.de'
           className={inputClass}
-          aria-label='E-Mail-Adresse'
         />
       </div>
 
