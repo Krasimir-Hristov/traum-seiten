@@ -249,18 +249,6 @@ export const AuthForm: React.FC = () => {
           ============================================================ */}
       <div className='flex flex-col items-center justify-center flex-1 px-6 overflow-y-auto relative z-10'>
         <article className='w-full max-w-md space-y-6'>
-          {/* Mobile logo */}
-          <div className='flex justify-center mb-2 lg:hidden'>
-            <Image
-              src='/designs/logo.png'
-              alt='Traumseiten'
-              width={48}
-              height={48}
-              className='rounded-full'
-              priority
-            />
-          </div>
-
           {/* Heading */}
           <header className='text-center space-y-2'>
             <Image

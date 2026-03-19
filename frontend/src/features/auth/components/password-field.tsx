@@ -108,8 +108,8 @@ export const PasswordField: React.FC<PasswordFieldProps> = ({
           onMouseLeave={(e) =>
             (e.currentTarget.style.color = 'rgba(255,255,255,0.35)')
           }
+          onMouseDown={(e) => e.preventDefault()}
           aria-label={visible ? 'Passwort verbergen' : 'Passwort anzeigen'}
-          tabIndex={-1}
         >
           {visible ? <EyeClosedIcon /> : <EyeOpenIcon />}
         </button>

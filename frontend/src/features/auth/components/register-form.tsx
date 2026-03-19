@@ -13,7 +13,9 @@ export const RegisterForm: React.FC = () => {
   const [passwordError, setPasswordError] = useState<string | null>(null);
   const [isPending, startTransition] = useTransition();
 
-  const handleSubmit = (formData: FormData) => {
+  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    const formData = new FormData(e.currentTarget);
     setError(null);
     setPasswordError(null);
 
@@ -28,14 +30,15 @@ export const RegisterForm: React.FC = () => {
       try {
         const result = await signUp(formData);
         if (result?.error) setError(result.error);
-      } catch {
-        // NEXT_REDIRECT is expected — ignore silently
+      } catch (err) {
+        // Rethrow NEXT_REDIRECT and other errors so they aren't swallowed silently
+        throw err;
       }
     });
   };
 
   return (
-    <form action={handleSubmit} className='space-y-4' noValidate>
+    <form onSubmit={handleSubmit} className='space-y-4' noValidate>
       <div>
         <label
           htmlFor='fullName'
@@ -124,7 +127,6 @@ export const RegisterForm: React.FC = () => {
           color: '#0d0d1a',
           boxShadow: isPending ? 'none' : '0 6px 30px rgba(244,196,52,0.35)',
         }}
-        aria-label='Konto erstellen'
       >
         {isPending ? 'Laden...' : 'Konto erstellen 🪄'}
       </button>
