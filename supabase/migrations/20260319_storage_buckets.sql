@@ -62,3 +62,19 @@ CREATE POLICY "Public avatar read access"
 ON storage.objects FOR SELECT TO public
 USING (bucket_id = 'permanent-avatars');
 
+DROP POLICY IF EXISTS "Users can delete own avatars" ON storage.objects;
+CREATE POLICY "Users can delete own avatars"
+ON storage.objects FOR DELETE TO authenticated
+USING (
+  bucket_id = 'permanent-avatars'
+  AND (storage.foldername(name))[1] = (SELECT auth.uid()::text)
+);
+
+DROP POLICY IF EXISTS "Users can update own avatars" ON storage.objects;
+CREATE POLICY "Users can update own avatars"
+ON storage.objects FOR UPDATE TO authenticated
+USING (
+  bucket_id = 'permanent-avatars'
+  AND (storage.foldername(name))[1] = (SELECT auth.uid()::text)
+);
+
