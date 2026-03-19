@@ -67,17 +67,20 @@ export const signUp = async (formData: FormData): Promise<AuthResult> => {
     if (error) {
       console.error('Supabase Signup error:', error.message);
 
-      if (error.message.toLowerCase().includes('already registered') || error.message.includes('User already registered')) {
+      const statusCode = error.status;
+      const errorCode = (error as any).code;
+
+      if (errorCode === 'user_already_exists' || errorCode === 'duplicate_user') {
         return { error: 'Diese E-Mail-Adresse ist bereits registriert.' };
       }
       if (
-        error.message.toLowerCase().includes('rate limit') ||
-        error.message.includes('over_email_send_rate_limit') ||
-        error.message.toLowerCase().includes('email rate limit')
+        statusCode === 429 ||
+        errorCode === 'over_email_send_rate_limit' || 
+        errorCode === 'too_many_requests'
       ) {
         return { error: 'Zu viele Anfragen. Bitte warte einige Minuten und versuche es erneut.' };
       }
-      if (error.message.toLowerCase().includes('invalid') && error.message.toLowerCase().includes('email')) {
+      if (errorCode === 'invalid_email') {
         return { error: 'Die E-Mail-Adresse ist ungültig. Bitte prüfe die Schreibweise.' };
       }
       // Fallback: generic user-safe message (raw Supabase text stays in server logs only)

@@ -1,6 +1,6 @@
 from typing import Annotated
 
-from fastapi import Depends, HTTPException, status
+from fastapi import Depends, Header, HTTPException, status
 from fastapi.security import HTTPAuthorizationCredentials, HTTPBearer
 from supabase import Client, create_client
 
@@ -20,6 +20,7 @@ def get_supabase_admin() -> Client:
 
 async def get_current_user(
     credentials: Annotated[HTTPAuthorizationCredentials, Depends(_bearer_scheme)],
+    x_traumseiten_client: Annotated[str | None, Header(alias="x-traumseiten-client")] = None,
 ) -> dict:
     """
     FastAPI dependency that validates the Supabase JWT from the Authorization header.
@@ -30,6 +31,12 @@ async def get_current_user(
         async def protected_route(user: Annotated[dict, Depends(get_current_user)]):
             ...
     """
+    if x_traumseiten_client != "web-frontend":
+        raise HTTPException(
+            status_code=status.HTTP_403_FORBIDDEN,
+            detail="Ungueltiger_oder_fehlender Traumseiten-Client.",
+        )
+
     token = credentials.credentials
 
     try:
