@@ -45,13 +45,15 @@ export const signUp = async (formData: FormData): Promise<AuthResult> => {
   const password = formData.get('password') as string;
   const fullName = formData.get('fullName') as string;
 
+  console.log('Attempting signup for:', email); // Server-side log
+
   if (!email || !password) {
     return { error: 'Bitte E-Mail und Passwort eingeben.' };
   }
 
   try {
     const supabase = await createClient();
-    const { error } = await supabase.auth.signUp({
+    const { data, error } = await supabase.auth.signUp({
       email,
       password,
       options: {
@@ -62,20 +64,38 @@ export const signUp = async (formData: FormData): Promise<AuthResult> => {
     });
 
     if (error) {
-      console.error('Signup error:', error.message);
-      if (error.message.includes('already registered')) {
+      console.error('Supabase Signup error:', error.message);
+
+      if (error.message.toLowerCase().includes('already registered') || error.message.includes('User already registered')) {
         return { error: 'Diese E-Mail-Adresse ist bereits registriert.' };
       }
-      if (error.message.includes('rate limit')) {
-        return { error: 'Zu viele Anfragen. Bitte versuche es später noch einmal oder verwende eine andere E-Mail.' };
+      if (
+        error.message.toLowerCase().includes('rate limit') ||
+        error.message.includes('over_email_send_rate_limit') ||
+        error.message.toLowerCase().includes('email rate limit')
+      ) {
+        return { error: 'Zu viele Anfragen. Bitte warte einige Minuten und versuche es erneut.' };
       }
-      return { error: 'Registrierung fehlgeschlagen. Bitte versuche es erneut.' };
+      if (error.message.toLowerCase().includes('invalid') && error.message.toLowerCase().includes('email')) {
+        return { error: 'Die E-Mail-Adresse ist ungültig. Bitte prüfe die Schreibweise.' };
+      }
+      // Fallback: show exact error for debugging, remove in production
+      return { error: `Registrierung fehlgeschlagen: ${error.message}` };
     }
+
+    // Check if user is created but session is null (Email confirmation required)
+    if (data.user && !data.session) {
+      console.log('User created, confirmation required.');
+      return { error: 'Bitte bestätige deine E-Mail-Adresse! Wir haben dir einen Bestätigungslink geschickt. 📧' };
+    }
+
+    console.log('Signup successful for:', data.user?.id);
   } catch (err) {
     console.error('Unexpected signup error:', err);
     return { error: 'Ein unerwarteter Fehler ist aufgetreten. Bitte versuche es erneut.' };
   }
 
+  // Only redirect if we actually have a session/user confirmed
   redirect('/dashboard');
 };
 
@@ -87,5 +107,5 @@ export const signOut = async (): Promise<void> => {
     // Sign-out errors are non-critical — redirect regardless
   }
 
-  redirect('/login');
+  redirect('/auth');
 };

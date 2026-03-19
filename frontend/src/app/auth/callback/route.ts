@@ -7,7 +7,7 @@ export const GET = async (request: NextRequest) => {
   const next = searchParams.get('next') ?? '/dashboard';
 
     if (!code) {
-    return NextResponse.redirect(`${origin}/login`);
+    return NextResponse.redirect(`${origin}/auth`);
   }
 
   try {
@@ -31,11 +31,11 @@ export const GET = async (request: NextRequest) => {
     const { error } = await supabase.auth.exchangeCodeForSession(code);
 
     if (error) {
-      return NextResponse.redirect(`${origin}/login`);
+      return NextResponse.redirect(`${origin}/auth`);
     }
 
     return response;
   } catch {
-    return NextResponse.redirect(`${origin}/login`);
+    return NextResponse.redirect(`${origin}/auth`);
   }
 };

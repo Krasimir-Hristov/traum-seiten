@@ -1,6 +1,7 @@
 import type { Metadata } from 'next';
 import { Inter } from 'next/font/google';
 import './globals.css';
+import { QueryProvider } from '@/components/providers/query-provider';
 
 const inter = Inter({
   variable: '--font-sans',
@@ -19,7 +20,7 @@ const RootLayout: React.FC<Readonly<{ children: React.ReactNode }>> = ({
   return (
     <html lang="de" className="dark">
       <body className={`${inter.variable} font-sans antialiased`}>
-        {children}
+        <QueryProvider>{children}</QueryProvider>
       </body>
     </html>
   );

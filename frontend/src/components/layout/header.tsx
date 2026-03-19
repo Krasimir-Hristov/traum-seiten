@@ -7,7 +7,6 @@ interface HeaderProps {
   /** Show the Anmelden button in the top right */
   showAuthButton?: boolean;
 }
-
 const Header: React.FC<HeaderProps> = ({ showNav = false, showAuthButton = false }) => {
   return (
     <header
@@ -67,7 +66,7 @@ const Header: React.FC<HeaderProps> = ({ showNav = false, showAuthButton = false
       {/* Optional Auth Button */}
       {showAuthButton && (
         <Link
-          href="/login"
+          href="/auth"
           className="rounded-xl px-4 py-2 text-sm font-semibold transition-all duration-200 hover:shadow-lg"
           style={{
             background: '#f4c434',

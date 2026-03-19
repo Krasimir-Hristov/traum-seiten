@@ -25,7 +25,7 @@ export const getAuthUser = async (): Promise<User> => {
   }
 
   if (!user) {
-    redirect('/login');
+    redirect('/auth');
   }
 
   // TypeScript doesn't narrow through redirect(), so we assert here.

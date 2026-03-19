@@ -101,14 +101,16 @@ export const RegisterForm: React.FC = () => {
       {error && (
         <div
           role='alert'
-          className='rounded-xl px-4 py-3 text-sm'
+          className='rounded-xl px-4 py-3 text-sm transition-all duration-300'
           style={{
-            background: 'rgba(239,68,68,0.10)',
-            border: '1px solid rgba(239,68,68,0.25)',
-            color: '#fca5a5',
+            background: error === 'IDENTIFIER_CONFIRM_EMAIL' ? 'rgba(244,196,52,0.1)' : 'rgba(239,68,68,0.10)',
+            border: error === 'IDENTIFIER_CONFIRM_EMAIL' ? '1px solid rgba(244,196,52,0.25)' : '1px solid rgba(239,68,68,0.25)',
+            color: error === 'IDENTIFIER_CONFIRM_EMAIL' ? '#f4c434' : '#fca5a5',
           }}
         >
-          {error}
+          {error === 'IDENTIFIER_CONFIRM_EMAIL' 
+            ? 'Bitte bestätige deine E-Mail-Adresse! Wir haben dir einen Bestätigungslink geschickt. 📧' 
+            : error}
         </div>
       )}
 
