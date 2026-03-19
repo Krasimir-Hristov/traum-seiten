@@ -17,9 +17,9 @@
 
 ## Phase 2: Authentication & Storage Setup
 
-- [ ] 2.1: Интеграция на Supabase Auth във фронтенда (Login/Register).
-- [ ] 2.2: Конфигуриране на Storage Buckets (temp-uploads и permanent-avatars).
-- [ ] 2.3: Защита на пътищата на ниво Server Components и API Routes (No-Middleware policy).
+- [x] 2.1: Интеграция на Supabase Auth във фронтенда (Login/Register).
+- [x] 2.2: Конфигуриране на Storage Buckets (temp-uploads и permanent-avatars).
+- [x] 2.3: Защита на пътищата на ниво Server Components и API Routes (No-Middleware policy).
 
 ## Phase 3: The Avatar Pipeline (Personalized Path)
 
