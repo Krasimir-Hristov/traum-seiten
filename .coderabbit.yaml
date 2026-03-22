@@ -60,6 +60,7 @@ reviews:
         - PAGE PROPS: Use the `PageProps` helper type for type-safe access to async `params` and `searchParams` in dynamic pages.
 
         4. DATABASE & SECURITY STANDARDS (SUPABASE)
+        - SECURITY AUDITS: You MUST pro-actively identify and flag ALL potential security vulnerabilities in every PR! Check for OWASP Top 10, XSS, CSRF, Injection, SSRF, Broken Access Control, and data leaks. Reject any code that presents a security risk.
         - RLS ENFORCEMENT: Every single table must have Row Level Security (RLS) enabled.
         - NAMING & TYPES: Use `snake_case` for all tables/columns. Use `UUID` for primary keys.
         - AUDITING: Every table must include `created_at` and `updated_at` timestamps.
