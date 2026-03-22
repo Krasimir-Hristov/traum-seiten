@@ -1,43 +1,50 @@
 'use client';
 
-import React, { useState, useTransition } from 'react';
+import React from 'react';
+import { useForm } from 'react-hook-form';
+import { zodResolver } from '@hookform/resolvers/zod';
+import { useMutation } from '@tanstack/react-query';
 import { signUp } from '@/features/auth/actions';
 import { AUTH_ERRORS } from '@/features/auth/constants';
 import { PasswordField } from './password-field';
+import { registerSchema, type RegisterFormData } from '../schemas';
 
 import { inputClass } from '../utils/classes';
 
 export const RegisterForm: React.FC = () => {
-  const [error, setError] = useState<string | null>(null);
-  const [passwordError, setPasswordError] = useState<string | null>(null);
-  const [isPending, startTransition] = useTransition();
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm<RegisterFormData>({
+    resolver: zodResolver(registerSchema),
+  });
 
-  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
-    const formData = new FormData(e.currentTarget);
-    setError(null);
-    setPasswordError(null);
-
-    const password = formData.get('password') as string;
-    const confirmPassword = formData.get('confirmPassword') as string;
-    if (password !== confirmPassword) {
-      setPasswordError('Die Passwörter stimmen nicht überein.');
-      return;
-    }
-
-    startTransition(async () => {
-      try {
-        const result = await signUp(formData);
-        if (result?.error) setError(result.error);
-      } catch (err) {
-        // Rethrow NEXT_REDIRECT and other errors so they aren't swallowed silently
-        throw err;
+  const {
+    mutate: executeRegister,
+    isPending,
+    error,
+  } = useMutation({
+    mutationFn: async (data: RegisterFormData) => {
+      const formData = new FormData();
+      formData.append('fullName', data.fullName);
+      formData.append('email', data.email);
+      formData.append('password', data.password);
+      
+      const result = await signUp(formData);
+      if (result?.error) {
+        throw new Error(result.error);
       }
-    });
+      return result;
+    },
+  });
+
+  const onSubmit = (data: RegisterFormData) => {
+    executeRegister(data);
   };
 
   return (
-    <form onSubmit={handleSubmit} className='space-y-4' noValidate>
+    <form onSubmit={handleSubmit(onSubmit)} className='space-y-4' noValidate>
       <div>
         <label
           htmlFor='fullName'
@@ -48,12 +55,17 @@ export const RegisterForm: React.FC = () => {
         </label>
         <input
           id='fullName'
-          name='fullName'
           type='text'
           autoComplete='name'
           placeholder='Max Mustermann'
           className={inputClass}
+          {...register('fullName')}
         />
+        {errors.fullName && (
+          <p className='text-xs mt-1.5' style={{ color: '#ef4444' }}>
+            {errors.fullName.message}
+          </p>
+        )}
       </div>
 
       <div>
@@ -66,52 +78,62 @@ export const RegisterForm: React.FC = () => {
         </label>
         <input
           id='email'
-          name='email'
           type='email'
           autoComplete='email'
-          required
           placeholder='name@beispiel.de'
           className={inputClass}
+          {...register('email')}
         />
+        {errors.email && (
+          <p className='text-xs mt-1.5' style={{ color: '#ef4444' }}>
+            {errors.email.message}
+          </p>
+        )}
       </div>
 
-      <PasswordField
-        id='password'
-        name='password'
-        label='Magisches Passwort'
-        autoComplete='new-password'
-      />
+      <div>
+        <PasswordField
+          id='password'
+          label='Magisches Passwort'
+          autoComplete='new-password'
+          hasError={Boolean(errors.password)}
+          {...register('password')}
+        />
+        {errors.password && (
+          <p className='text-xs mt-1.5' style={{ color: '#ef4444' }}>
+            {errors.password.message}
+          </p>
+        )}
+      </div>
 
-      <PasswordField
-        id='confirmPassword'
-        name='confirmPassword'
-        label='Passwort wiederholen'
-        autoComplete='new-password'
-        hasError={Boolean(passwordError)}
-      />
-      {passwordError && (
-        <p
-          role='alert'
-          className='text-xs'
-          style={{ color: '#ef4444' }}
-        >
-          {passwordError}
-        </p>
-      )}
+      <div>
+        <PasswordField
+          id='confirmPassword'
+          label='Passwort wiederholen'
+          autoComplete='new-password'
+          hasError={Boolean(errors.confirmPassword)}
+          {...register('confirmPassword')}
+        />
+        {errors.confirmPassword && (
+          <p className='text-xs mt-1.5' style={{ color: '#ef4444' }}>
+            {errors.confirmPassword.message}
+          </p>
+        )}
+      </div>
 
       {error && (
         <div
           role='alert'
           className='rounded-xl px-4 py-3 text-sm transition-all duration-300'
           style={{
-            background: error === AUTH_ERRORS.CONFIRM_EMAIL ? 'rgba(244,196,52,0.1)' : 'rgba(239,68,68,0.10)',
-            border: error === AUTH_ERRORS.CONFIRM_EMAIL ? '1px solid rgba(244,196,52,0.25)' : '1px solid rgba(239,68,68,0.25)',
-            color: error === AUTH_ERRORS.CONFIRM_EMAIL ? '#f4c434' : '#fca5a5',
+            background: error.message === AUTH_ERRORS.CONFIRM_EMAIL ? 'rgba(244,196,52,0.1)' : 'rgba(239,68,68,0.10)',
+            border: error.message === AUTH_ERRORS.CONFIRM_EMAIL ? '1px solid rgba(244,196,52,0.25)' : '1px solid rgba(239,68,68,0.25)',
+            color: error.message === AUTH_ERRORS.CONFIRM_EMAIL ? '#f4c434' : '#fca5a5',
           }}
         >
-          {error === AUTH_ERRORS.CONFIRM_EMAIL
+          {error.message === AUTH_ERRORS.CONFIRM_EMAIL
             ? 'Bitte bestätige deine E-Mail-Adresse! Wir haben dir einen Bestätigungslink geschickt. 📧'
-            : error}
+            : error.message}
         </div>
       )}
 
