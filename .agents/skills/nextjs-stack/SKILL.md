@@ -105,10 +105,9 @@ turbopack: {
 
 ## Upgrade Checklist (When Updating Next.js)
 
-- [ ] Update `next`, `react`, `react-dom` to latest.
-- [ ] Update `eslint-config-next` to match.
+- [ ] Update `next`, `react`, `react-dom` to latest in `frontend/package.json`.
+- [ ] Update `eslint-config-next` to match in `frontend/package.json`.
 - [ ] Check for breaking changes in context7 documentation.
 - [ ] Verify `turbopack.root` is set correctly.
 - [ ] Run `npm run build` to catch any compile-time errors.
-- [ ] Update this SKILL.md with new version numbers and features.
-- [ ] Update `.coderabbit.yaml` with new version info.
+- [ ] Update version numbers in all current locations: the `SKILL.md` stack table, `.coderabbit.yaml`, and `frontend/package.json`.

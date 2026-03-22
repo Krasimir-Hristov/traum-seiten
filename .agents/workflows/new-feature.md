@@ -1,6 +1,7 @@
 ---
 description: Create a new feature following strict structural guidelines
 ---
+
 # Steps to follow when creating a new feature
 1. Create folder structure: `src/features/{feature-name}/`.
 2. Inside the feature folder, create: `components/`, `hooks/`, `types/`, and `index.ts`.

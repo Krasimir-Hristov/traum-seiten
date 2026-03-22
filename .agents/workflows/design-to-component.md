@@ -1,6 +1,7 @@
 ---
 description: Turn a design into a production-ready component
 ---
+
 # Steps to follow when turning a design into a component
 1. Analyze the provided design (image, Stitch screen, or description).
 2. Break the design into semantic HTML5 sections.
@@ -10,3 +11,4 @@ description: Turn a design into a production-ready component
 6. Add `aria-label` to every interactive element.
 7. Export only through `index.ts`.
 8. Verify the file does not exceed 300 lines.
+
