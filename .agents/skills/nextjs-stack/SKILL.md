@@ -46,33 +46,41 @@ This applies to **every** technology in the stack, not just Next.js. Examples:
 ## Next.js 16.2 Key Features (vs 16.1.6)
 
 ### 1. View Transitions (Experimental)
+
 - Enabled in `next.config.ts` via `experimental.viewTransition: true`.
 - Uses the browser's native View Transitions API for smooth page transitions.
 - Works with React's `startViewTransition`.
 
 ### 2. `updateTag` API (Read-Your-Writes)
+
 - Import from `next/cache`.
 - Use in Server Actions to expire and immediately refresh a cache tag within the same request.
 - Ensures users see their changes instantly after mutations.
+
 ```ts
 import { updateTag } from 'next/cache';
 updateTag('user-123');
 ```
 
 ### 3. React 19.2 Features
+
 - **`useEffectEvent`**: Extract non-reactive logic from Effects.
 - **`Activity`**: Render components in background (display: none) while preserving state.
 
 ### 4. `after()` API (Stable)
+
 - Import from `next/server`.
 - Schedules work to execute AFTER the response is sent (logging, analytics).
+
 ```ts
 import { after } from 'next/server';
 after(() => { log('Page rendered'); });
 ```
 
 ### 5. `PageProps` Helper Type
+
 - Type-safe access to async `params` and `searchParams`.
+
 ```ts
 export default async function Page(props: PageProps<'/blog/[slug]'>) {
   const { slug } = await props.params;
@@ -80,15 +88,19 @@ export default async function Page(props: PageProps<'/blog/[slug]'>) {
 ```
 
 ### 6. Cache Components / PPR
+
 - Enabled via `cacheComponents: true` in `next.config.ts` (replaces old `experimental_ppr`).
 - Use `<Suspense>` boundaries to separate static from dynamic content.
 
 ### 7. Async `params` & `searchParams`
+
 - In all dynamic routes, `params` and `searchParams` are now `Promise` types.
 - **MUST** use `await` to access them.
 
 ### 8. Turbopack Root
+
 - If workspace is a monorepo or non-standard layout, set `turbopack.root` in `next.config.ts`.
+
 ```ts
 turbopack: {
   root: path.resolve(__dirname),
@@ -96,9 +108,11 @@ turbopack: {
 ```
 
 ### 9. Parallel Routes Require `default.tsx`
+
 - All parallel route slots (`@slot`) now require an explicit `default.tsx` file.
 
 ### 10. Middleware → Proxy Naming
+
 - `skipMiddlewareUrlNormalize` is now `skipProxyUrlNormalize` in config.
 
 ---
