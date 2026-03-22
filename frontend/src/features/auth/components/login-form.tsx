@@ -1,32 +1,54 @@
 'use client';
 
-import React, { useState, useTransition } from 'react';
+import React from 'react';
+import { useForm } from 'react-hook-form';
+import { zodResolver } from '@hookform/resolvers/zod';
+import { useMutation } from '@tanstack/react-query';
 import { signIn } from '@/features/auth/actions';
 import { PasswordField } from './password-field';
+import { loginSchema, type LoginFormData } from '../schemas';
 
 import { inputClass } from '../utils/classes';
 
 export const LoginForm: React.FC = () => {
-  const [error, setError] = useState<string | null>(null);
-  const [isPending, startTransition] = useTransition();
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm<LoginFormData>({
+    resolver: zodResolver(loginSchema),
+  });
 
-  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
-    const formData = new FormData(e.currentTarget);
-    setError(null);
-    startTransition(async () => {
+  const {
+    mutate: executeLogin,
+    isPending,
+    error,
+  } = useMutation({
+    mutationFn: async (data: LoginFormData) => {
       try {
+        const formData = new FormData();
+        formData.append('email', data.email);
+        formData.append('password', data.password);
+        
         const result = await signIn(formData);
-        if (result?.error) setError(result.error);
+        if (result?.error) {
+          throw new Error(result.error);
+        }
+        return result;
       } catch (err) {
-        // Rethrow NEXT_REDIRECT and other errors so they aren't swallowed silently
-        throw err;
+        if (err instanceof Error && err.message === 'NEXT_REDIRECT') throw err;
+        if (err instanceof Error && err.message !== 'NEXT_REDIRECT') throw err;
+        throw new Error('Anmeldung fehlgeschlagen. Bitte versuche es erneut.');
       }
-    });
+    },
+  });
+
+  const onSubmit = (data: LoginFormData) => {
+    executeLogin(data);
   };
 
   return (
-    <form onSubmit={handleSubmit} className='space-y-4' noValidate>
+    <form onSubmit={handleSubmit(onSubmit)} className='space-y-4' noValidate>
       <div>
         <label
           htmlFor='email'
@@ -37,24 +59,42 @@ export const LoginForm: React.FC = () => {
         </label>
         <input
           id='email'
-          name='email'
           type='email'
           autoComplete='email'
-          required
           placeholder='name@beispiel.de'
+          aria-label='E-Mail-Adresse'
+          aria-invalid={Boolean(errors.email) || undefined}
+          aria-describedby={errors.email ? 'email-error' : undefined}
           className={inputClass}
+          {...register('email')}
         />
+        {errors.email && (
+          <p id='email-error' className='text-xs mt-1.5' style={{ color: '#ef4444' }}>
+            {errors.email.message}
+          </p>
+        )}
       </div>
 
-      <PasswordField
-        id='password'
-        name='password'
-        label='Passwort'
-        autoComplete='current-password'
-      />
+      <div>
+        <PasswordField
+          id='password'
+          label='Passwort'
+          autoComplete='current-password'
+          placeholder='••••••••'
+          hasError={Boolean(errors.password)}
+          aria-describedby={errors.password ? 'password-error' : undefined}
+          {...register('password')}
+        />
+        {errors.password && (
+          <p id='password-error' className='text-xs mt-1.5' style={{ color: '#ef4444' }}>
+            {errors.password.message}
+          </p>
+        )}
+      </div>
 
       {error && (
         <div
+          id='login-form-error'
           role='alert'
           className='rounded-xl px-4 py-3 text-sm'
           style={{
@@ -63,13 +103,15 @@ export const LoginForm: React.FC = () => {
             color: '#fca5a5',
           }}
         >
-          {error}
+          {error.message}
         </div>
       )}
 
       <button
         type='submit'
         disabled={isPending}
+        aria-label='Anmelden'
+        aria-describedby={error ? 'login-form-error' : undefined}
         className='w-full rounded-xl py-3.5 text-base font-bold tracking-wide transition-all duration-200 mt-2 cursor-pointer disabled:cursor-not-allowed disabled:opacity-60'
         style={{
           background: isPending ? 'rgba(244,196,52,0.6)' : '#f4c434',

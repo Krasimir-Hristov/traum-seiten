@@ -41,20 +41,17 @@ const EyeClosedIcon: React.FC = () => (
 );
 
 // --- Password Field ---
-interface PasswordFieldProps {
-  id: string;
-  name: string;
+interface PasswordFieldProps extends React.InputHTMLAttributes<HTMLInputElement> {
   label: string;
-  autoComplete?: string;
   hasError?: boolean;
 }
 
 export const PasswordField: React.FC<PasswordFieldProps> = ({
   id,
-  name,
   label,
-  autoComplete = 'current-password',
   hasError = false,
+  className,
+  ...props
 }) => {
   const [visible, setVisible] = useState(false);
   return (
@@ -69,17 +66,15 @@ export const PasswordField: React.FC<PasswordFieldProps> = ({
       <div className='relative'>
         <input
           id={id}
-          name={name}
           type={visible ? 'text' : 'password'}
-          autoComplete={autoComplete}
-          required
-          minLength={6}
-          placeholder='••••••••'
+          aria-label={label}
+          aria-invalid={hasError || undefined}
           className={`w-full rounded-xl border px-4 py-3 pr-12 text-white placeholder:text-white/25 bg-white/5 transition-all duration-200 focus:outline-none ${
             hasError
               ? 'border-red-500/50 shadow-[0_0_0_2px_rgba(239,68,68,0.15)] focus:border-red-500/50 focus:shadow-[0_0_0_2px_rgba(239,68,68,0.15)] focus:ring-0'
               : 'border-white/10 focus:border-[#f4c434]/60 focus:ring-2 focus:ring-[#f4c434]/15'
-          }`}
+          } ${className || ''}`}
+          {...props}
         />
         <button
           type='button'
