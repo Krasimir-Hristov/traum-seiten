@@ -18,7 +18,7 @@ const RootLayout: React.FC<Readonly<{ children: React.ReactNode }>> = ({
   children,
 }) => {
   return (
-    <html lang="de" className="dark">
+    <html lang="de" className="dark" suppressHydrationWarning>
       <body className={`${inter.variable} font-sans antialiased`}>
         <QueryProvider>{children}</QueryProvider>
       </body>
