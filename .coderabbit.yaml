@@ -71,6 +71,7 @@ reviews:
 
         6. REACT 19.2 FEATURES & UI/UX
         - COMPONENT SYNTAX: All React components MUST be defined using Arrow Functions (e.g., `const MyComponent: React.FC = () => { ... }`). Strictly FORBID the `function` keyword for components.
+        - IGNORE REACT IMPORT: The project uses Next.js 14+ with the new JSX transform. DO NOT flag missing `import React from 'react'` in files that only use `React.FC` or other React types. This is an outdated concept and should be ignored unless explicitly causing a TypeScript compilation error.
         - PREMIUM DESIGN: Enforce high-end aesthetics (vibrant colors, smooth gradients, glassmorphism, micro-animations). 
         - TAILWIND V4: Use `bg-linear-to-*` instead of `bg-gradient-to-*`.
         - UI-PURITY: Keep `src/components/ui` as stateless/presentational components. Manage logic in Hooks/Server Components.
