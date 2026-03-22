@@ -252,7 +252,7 @@ export const AuthForm: React.FC = () => {
           {/* Heading */}
           <header className='text-center space-y-2'>
             <Image
-              src='/designs/logo.png'
+              src='/images/logo.png'
               alt='Traumseiten Logo'
               width={56}
               height={56}

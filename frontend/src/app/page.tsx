@@ -20,8 +20,11 @@ const HomePage: React.FC = async () => {
     const supabase = await createClient();
     const { data: { user } } = await supabase.auth.getUser();
     isAuthenticated = Boolean(user);
-  } catch {
+  } catch (error) {
     // Treat as unauthenticated if supabase is unavailable
+    if (process.env.NODE_ENV !== 'production') {
+      console.error('Supabase auth error:', error);
+    }
   }
 
   return (

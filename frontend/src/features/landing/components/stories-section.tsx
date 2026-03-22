@@ -97,7 +97,7 @@ const StoriesSection: React.FC<StoriesSectionProps> = ({ isAuthenticated = false
           </p>
         </div>
         <Link
-          href={isAuthenticated ? "/dashboard/stories" : "/auth"}
+          href={isAuthenticated ? '/dashboard' : '/auth'}
           className="hidden text-sm font-medium text-(--ts-gold) transition-colors duration-200 hover:text-(--ts-gold-hover) md:inline-flex"
           aria-label="Alle Geschichten ansehen"
         >

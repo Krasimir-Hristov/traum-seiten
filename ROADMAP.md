@@ -35,7 +35,7 @@
 
 ## Phase 5: The Magical UI (The Reader)
 
-- [ ] 5.1: UI: Dashboard Refactoring – Преместване на `src/app/dashboard` UI логиката в `src/features/dashboard/components` спрямо Feature-Based Structure.
+- [ ] 5.1: UI: Dashboard Refactoring – Преместване на `frontend/src/app/dashboard` UI логиката в `frontend/src/features/dashboard/components` спрямо Feature-Based Structure.
 - [ ] 5.2: UI: "The Bookshelf" – Показване на наличните книги в Anthology модела.
 - [ ] 5.3: UI: "The Book Reader" – Компонент с framer-motion за прелистване на страници.
 - [ ] 5.4: UI: Story Creation Wizard – Форма за избор между "Моето дете" или "Универсална история".

@@ -1,6 +1,24 @@
 import Link from 'next/link';
 import Image from 'next/image';
 
+const productLinks = [
+  { name: 'Funktionen', href: '/#features' },
+  { name: 'Bibliothek', href: '/#geschichten' },
+  { name: 'Preise', href: '/pricing' }, // TODO: create pricing page
+];
+
+const companyLinks = [
+  { name: 'Über uns', href: '/about' }, // TODO: create about page
+  { name: 'Blog', href: '/blog' }, // TODO: create blog
+  { name: 'Karriere', href: '/career' }, // TODO: create career page
+];
+
+const socialLinks = [
+  { name: 'Twitter', href: 'https://x.com' },
+  { name: 'Instagram', href: 'https://instagram.com' },
+  { name: 'Discord', href: 'https://discord.com' },
+];
+
 const Footer: React.FC = () => {
   return (
     <footer
@@ -43,13 +61,13 @@ const Footer: React.FC = () => {
                 Produkt
               </h3>
               <ul className='mt-4 space-y-3' role='list'>
-                {['Funktionen', 'Bibliothek', 'Preise'].map((item) => (
-                  <li key={item}>
+                {productLinks.map((item) => (
+                  <li key={item.name}>
                     <Link
-                      href='#'
+                      href={item.href}
                       className='text-sm text-(--ts-text-secondary) transition-colors duration-200 hover:text-(--ts-gold)'
                     >
-                      {item}
+                      {item.name}
                     </Link>
                   </li>
                 ))}
@@ -60,13 +78,13 @@ const Footer: React.FC = () => {
                 Unternehmen
               </h3>
               <ul className='mt-4 space-y-3' role='list'>
-                {['Über uns', 'Blog', 'Karriere'].map((item) => (
-                  <li key={item}>
+                {companyLinks.map((item) => (
+                  <li key={item.name}>
                     <Link
-                      href='#'
+                      href={item.href}
                       className='text-sm text-(--ts-text-secondary) transition-colors duration-200 hover:text-(--ts-gold)'
                     >
-                      {item}
+                      {item.name}
                     </Link>
                   </li>
                 ))}
@@ -77,13 +95,13 @@ const Footer: React.FC = () => {
                 Verbinden
               </h3>
               <ul className='mt-4 space-y-3' role='list'>
-                {['Twitter', 'Instagram', 'Discord'].map((item) => (
-                  <li key={item}>
+                {socialLinks.map((item) => (
+                  <li key={item.name}>
                     <Link
-                      href='#'
+                      href={item.href}
                       className='text-sm text-(--ts-text-secondary) transition-colors duration-200 hover:text-(--ts-gold)'
                     >
-                      {item}
+                      {item.name}
                     </Link>
                   </li>
                 ))}

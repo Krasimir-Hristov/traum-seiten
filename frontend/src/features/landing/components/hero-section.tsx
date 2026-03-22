@@ -107,7 +107,8 @@ const HeroSection: React.FC<HeroSectionProps> = ({ isAuthenticated = false }) =>
         </div>
         {/* Glow under image */}
         <div
-          className="pointer-events-none absolute -bottom-10 left-1/2 h-[120px] w-3/4 -translate-x-1/2 rounded-full blur-[60px] bg-radial-gradient(circle, var(--ts-gold-glow) 0%, transparent 70%)"
+          className="pointer-events-none absolute -bottom-10 left-1/2 h-[120px] w-3/4 -translate-x-1/2 rounded-full blur-[60px]"
+          style={{ background: 'radial-gradient(circle, var(--ts-gold-glow) 0%, transparent 70%)' }}
           aria-hidden="true"
         />
       </div>
