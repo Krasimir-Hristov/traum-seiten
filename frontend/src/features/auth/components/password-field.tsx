@@ -67,6 +67,8 @@ export const PasswordField: React.FC<PasswordFieldProps> = ({
         <input
           id={id}
           type={visible ? 'text' : 'password'}
+          aria-label={label}
+          aria-invalid={hasError || undefined}
           className={`w-full rounded-xl border px-4 py-3 pr-12 text-white placeholder:text-white/25 bg-white/5 transition-all duration-200 focus:outline-none ${
             hasError
               ? 'border-red-500/50 shadow-[0_0_0_2px_rgba(239,68,68,0.15)] focus:border-red-500/50 focus:shadow-[0_0_0_2px_rgba(239,68,68,0.15)] focus:ring-0'

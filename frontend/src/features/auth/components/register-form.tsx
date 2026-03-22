@@ -26,16 +26,22 @@ export const RegisterForm: React.FC = () => {
     error,
   } = useMutation({
     mutationFn: async (data: RegisterFormData) => {
-      const formData = new FormData();
-      formData.append('fullName', data.fullName);
-      formData.append('email', data.email);
-      formData.append('password', data.password);
-      
-      const result = await signUp(formData);
-      if (result?.error) {
-        throw new Error(result.error);
+      try {
+        const formData = new FormData();
+        formData.append('fullName', data.fullName);
+        formData.append('email', data.email);
+        formData.append('password', data.password);
+        
+        const result = await signUp(formData);
+        if (result?.error) {
+          throw new Error(result.error);
+        }
+        return result;
+      } catch (err) {
+        if (err instanceof Error && err.message === 'NEXT_REDIRECT') throw err;
+        if (err instanceof Error && err.message !== 'NEXT_REDIRECT') throw err;
+        throw new Error('Registrierung fehlgeschlagen. Bitte versuche es erneut.');
       }
-      return result;
     },
   });
 
@@ -58,11 +64,14 @@ export const RegisterForm: React.FC = () => {
           type='text'
           autoComplete='name'
           placeholder='Max Mustermann'
+          aria-label='Vollständiger Name'
+          aria-invalid={Boolean(errors.fullName) || undefined}
+          aria-describedby={errors.fullName ? 'fullName-error' : undefined}
           className={inputClass}
           {...register('fullName')}
         />
         {errors.fullName && (
-          <p className='text-xs mt-1.5' style={{ color: '#ef4444' }}>
+          <p id='fullName-error' className='text-xs mt-1.5' style={{ color: '#ef4444' }}>
             {errors.fullName.message}
           </p>
         )}
@@ -81,11 +90,14 @@ export const RegisterForm: React.FC = () => {
           type='email'
           autoComplete='email'
           placeholder='name@beispiel.de'
+          aria-label='E-Mail-Adresse'
+          aria-invalid={Boolean(errors.email) || undefined}
+          aria-describedby={errors.email ? 'email-error' : undefined}
           className={inputClass}
           {...register('email')}
         />
         {errors.email && (
-          <p className='text-xs mt-1.5' style={{ color: '#ef4444' }}>
+          <p id='email-error' className='text-xs mt-1.5' style={{ color: '#ef4444' }}>
             {errors.email.message}
           </p>
         )}
@@ -97,10 +109,11 @@ export const RegisterForm: React.FC = () => {
           label='Magisches Passwort'
           autoComplete='new-password'
           hasError={Boolean(errors.password)}
+          aria-describedby={errors.password ? 'password-error' : undefined}
           {...register('password')}
         />
         {errors.password && (
-          <p className='text-xs mt-1.5' style={{ color: '#ef4444' }}>
+          <p id='password-error' className='text-xs mt-1.5' style={{ color: '#ef4444' }}>
             {errors.password.message}
           </p>
         )}
@@ -112,10 +125,11 @@ export const RegisterForm: React.FC = () => {
           label='Passwort wiederholen'
           autoComplete='new-password'
           hasError={Boolean(errors.confirmPassword)}
+          aria-describedby={errors.confirmPassword ? 'confirmPassword-error' : undefined}
           {...register('confirmPassword')}
         />
         {errors.confirmPassword && (
-          <p className='text-xs mt-1.5' style={{ color: '#ef4444' }}>
+          <p id='confirmPassword-error' className='text-xs mt-1.5' style={{ color: '#ef4444' }}>
             {errors.confirmPassword.message}
           </p>
         )}
@@ -123,6 +137,7 @@ export const RegisterForm: React.FC = () => {
 
       {error && (
         <div
+          id='register-form-error'
           role='alert'
           className='rounded-xl px-4 py-3 text-sm transition-all duration-300'
           style={{
@@ -140,6 +155,8 @@ export const RegisterForm: React.FC = () => {
       <button
         type='submit'
         disabled={isPending}
+        aria-label='Konto erstellen'
+        aria-describedby={error ? 'register-form-error' : undefined}
         className='w-full rounded-xl py-3.5 text-base font-bold tracking-wide transition-all duration-200 mt-2 cursor-pointer disabled:cursor-not-allowed disabled:opacity-60'
         style={{
           background: isPending ? 'rgba(244,196,52,0.6)' : '#f4c434',
