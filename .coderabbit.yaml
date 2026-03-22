@@ -53,6 +53,7 @@ reviews:
 
         3. STRICT TYPE SYSTEM & ROBUST CODE
         - ZERO-TOLERANCE 'ANY': Strictly forbid the use of `any`. Use precise interfaces or `unknown` with Type Guards.
+        - ZOD & TANSTACK QUERY: All frontend data validation (Forms) MUST be done via `zod` and `react-hook-form`. All mutations (submitting data, auth) and async queries MUST use `@tanstack/react-query` (`useMutation`/`useQuery`) instead of local `useTransition` or `useState` flags for error/loading states. Reject manual state-flags where React Query is applicable!
         - PYDANTIC VALIDATION: Backend must use Pydantic models for ALL request/response bodies with strict validation enabled.
         - RESILIENT ASYNC: Every async/await block (Next.js & FastAPI) MUST be wrapped in try/catch (TS) or try/except (Python). 
         - ERROR HANDLING: Never return raw stack traces. Return user-friendly error messages and provide graceful UI fallbacks.

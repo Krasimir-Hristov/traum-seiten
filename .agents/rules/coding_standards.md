@@ -2,6 +2,7 @@
 
 ## Strict-Type-System
 * **Frontend (TS):** Zero-tolerance for `any`. Every prop, state, and API response must have a defined interface or type. Use `unknown` only if absolutely necessary.
+* **Frontend Data Validation:** ALL application forms must be validated using `zod` (typically with `react-hook-form`). ALL asynchronous operations and Server Actions on the client must be managed globally and reliably using `TanStack React Query` (`useQuery`/`useMutation`) to effortlessly handle loading/error/success states. Prefer them over basic `useState` flags whenever possible.
 * **Backend (Python):** Use Pydantic models for all Request and Response bodies. Enable strict validation.
 
 ## Resilient-Async
