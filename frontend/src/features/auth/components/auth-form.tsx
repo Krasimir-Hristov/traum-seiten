@@ -159,7 +159,7 @@ export const AuthForm: React.FC = () => {
         <div className='space-y-8 text-center'>
           <div className='flex items-center justify-center gap-3'>
             <Image
-              src='/designs/logo.png'
+              src='/images/logo.png'
               alt='Traumseiten Logo'
               width={64}
               height={64}
@@ -252,7 +252,7 @@ export const AuthForm: React.FC = () => {
           {/* Heading */}
           <header className='text-center space-y-2'>
             <Image
-              src='/designs/logo.png'
+              src='/images/logo.png'
               alt='Traumseiten Logo'
               width={56}
               height={56}
