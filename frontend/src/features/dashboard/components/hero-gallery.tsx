@@ -31,7 +31,7 @@ export const HeroGallery: React.FC = () => {
       <div className="flex gap-4 overflow-x-auto pb-4 snap-x">
         {/* Add Hero Link / Card */}
         <Link
-          href="/dashboard"
+          href="/dashboard/heroes/new"
           className="group relative flex h-48 w-40 shrink-0 cursor-pointer snap-start flex-col items-center justify-center gap-3 rounded-2xl border border-white/10 bg-[#1a1a2e]/50 backdrop-blur-md transition-all hover:bg-[#1a1a2e] hover:ring-2 hover:ring-[rgba(244,196,52,0.5)] focus:outline-none focus:ring-2 focus:ring-[rgba(244,196,52,0.5)]"
           aria-label="Neuen Held hinzufügen"
         >
@@ -45,6 +45,7 @@ export const HeroGallery: React.FC = () => {
         {mockHeroes.map((hero) => (
           <button
             key={hero.id}
+            onClick={() => console.warn(`TODO: Open details for hero ${hero.id}`)}
             aria-label={`Held öffnen: ${hero.name}`}
             className="group relative h-48 w-40 shrink-0 cursor-pointer snap-start overflow-hidden rounded-2xl border border-white/10 bg-[#12122a] transition-all hover:ring-2 hover:ring-[rgba(244,196,52,0.5)] focus:outline-none focus:ring-2 focus:ring-[rgba(244,196,52,0.5)] text-left"
           >

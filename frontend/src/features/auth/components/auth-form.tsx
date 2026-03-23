@@ -6,7 +6,7 @@ import { LoginForm } from './login-form';
 import { RegisterForm } from './register-form';
 
 export type AuthMode = 'login' | 'register';
-import { STARS, features } from './auth-form.constants';
+import { STATIC_AUTH_STARS, AUTH_FEATURES } from '@/lib/constants';
 
 
 // --- Main AuthForm ---
@@ -78,7 +78,7 @@ export const AuthForm: React.FC = () => {
       />
 
       {/* Stars scattered across the whole page */}
-      {STARS.map((star, i) => (
+      {STATIC_AUTH_STARS.map((star, i) => (
         <div
           key={i}
           className='absolute rounded-full pointer-events-none z-0 animate-heartbeat'
@@ -162,7 +162,7 @@ export const AuthForm: React.FC = () => {
 
         {/* Feature list — horizontal rows */}
         <div className='space-y-4 w-full max-w-sm'>
-          {features.map((f) => (
+          {AUTH_FEATURES.map((f) => (
             <div
               key={f.title}
               className='flex items-center gap-4 rounded-2xl px-5 py-4'

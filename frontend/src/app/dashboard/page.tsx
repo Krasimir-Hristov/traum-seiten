@@ -1,4 +1,5 @@
 import type { Metadata } from 'next';
+import { redirect } from 'next/navigation';
 import { getAuthUser } from '@/lib/dal';
 import { DECORATIVE_STARS } from '@/lib/constants';
 import { HeroGallery } from '@/features/dashboard/components/hero-gallery';
@@ -10,7 +11,20 @@ export const metadata: Metadata = {
 };
 
 const DashboardPage: React.FC = async () => {
-  const user = await getAuthUser();
+  let user;
+  try {
+    user = await getAuthUser();
+  } catch (error) {
+    console.error("Failed to authenticate user on dashboard:", error);
+    user = null;
+  }
+
+  if (!user) {
+    redirect('/login');
+  }
+
+  const firstName = user?.user_metadata?.full_name?.split(' ')[0];
+  const greeting = firstName ? `Willkommen zurück, ${firstName}!` : 'Willkommen zurück, Magier!';
 
   return (
     <section className="space-y-12 pb-12 relative">
@@ -38,10 +52,21 @@ const DashboardPage: React.FC = async () => {
         
         <div className="relative z-10 flex flex-col items-start gap-4 px-8 py-10 md:px-12 md:py-14">
           <h1 className="text-4xl font-extrabold tracking-tight text-white sm:text-5xl">
-            Willkommen zurück, <br className="md:hidden" />
-            <span className="text-transparent bg-clip-text bg-linear-to-r from-[#f4c434] to-[#fcd971]">
-              Magier {user.user_metadata?.full_name?.split(' ')[0] || ''}!
-            </span> 🌙
+            {firstName ? (
+              <>
+                Willkommen zurück, <br className="md:hidden" />
+                <span className="text-transparent bg-clip-text bg-linear-to-r from-[#f4c434] to-[#fcd971]">
+                  Magier {firstName}!
+                </span> 🌙
+              </>
+            ) : (
+              <>
+                Willkommen zurück, <br className="md:hidden" />
+                <span className="text-transparent bg-clip-text bg-linear-to-r from-[#f4c434] to-[#fcd971]">
+                  Magier!
+                </span> 🌙
+              </>
+            )}
           </h1>
           <p className="max-w-xl text-lg text-white/60 leading-relaxed">
             Deine erzählten Welten und Helden warten auf dich. Welches Abenteuer schreiben wir heute?
