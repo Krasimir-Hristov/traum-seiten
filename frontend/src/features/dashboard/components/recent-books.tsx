@@ -1,4 +1,5 @@
 import React from 'react';
+import Link from 'next/link';
 import { BookOpen } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 
@@ -10,7 +11,7 @@ export const RecentBooks: React.FC = () => {
           <BookOpen className="h-5 w-5 text-[#f4c434]" />
           Letzte Bücher
         </h2>
-        <Button variant="link" className="text-white/60 hover:text-[#f4c434] cursor-pointer">
+        <Button variant="link" className="text-white/60 hover:text-[#f4c434] cursor-pointer" aria-label="Alle Bücher in der Bibliothek ansehen">
           Alle ansehen
         </Button>
       </div>
@@ -25,12 +26,14 @@ export const RecentBooks: React.FC = () => {
               Dein Regal wartet auf das erste magische Abenteuer!
             </p>
           </div>
-          <Button 
-            className="mt-4 cursor-pointer rounded-full bg-linear-to-r from-[#f4c434] to-[#e6b52e] text-[#0d0d1a] hover:opacity-90 transition-all font-semibold"
-            aria-label="Erste Geschichte erstellen"
-          >
-            Geschichte erstellen
-          </Button>
+          <Link href="/dashboard" passHref legacyBehavior>
+            <Button 
+              className="mt-4 cursor-pointer rounded-full bg-linear-to-r from-[#f4c434] to-[#e6b52e] text-[#0d0d1a] hover:opacity-90 transition-all font-semibold"
+              aria-label="Erste Geschichte erstellen"
+            >
+              Geschichte erstellen
+            </Button>
+          </Link>
         </div>
       </div>
     </section>

@@ -1,6 +1,7 @@
 'use client';
 
 import React from 'react';
+import Link from 'next/link';
 import { PlusCircle, Star } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 
@@ -28,9 +29,9 @@ export const HeroGallery: React.FC = () => {
       </div>
 
       <div className="flex gap-4 overflow-x-auto pb-4 snap-x">
-        {/* Add Hero Button / Card */}
-        <button
-          onClick={() => { /* to be implemented */ }}
+        {/* Add Hero Link / Card */}
+        <Link
+          href="/dashboard"
           className="group relative flex h-48 w-40 shrink-0 cursor-pointer snap-start flex-col items-center justify-center gap-3 rounded-2xl border border-white/10 bg-[#1a1a2e]/50 backdrop-blur-md transition-all hover:bg-[#1a1a2e] hover:ring-2 hover:ring-[rgba(244,196,52,0.5)] focus:outline-none focus:ring-2 focus:ring-[rgba(244,196,52,0.5)]"
           aria-label="Neuen Held hinzufügen"
         >
@@ -38,13 +39,14 @@ export const HeroGallery: React.FC = () => {
             <PlusCircle className="h-8 w-8" />
           </div>
           <span className="font-medium text-white/60 group-hover:text-white transition-all">Neu hinzufügen</span>
-        </button>
+        </Link>
 
         {/* Mock Heroes */}
         {mockHeroes.map((hero) => (
-          <div
+          <button
             key={hero.id}
-            className="group relative h-48 w-40 shrink-0 cursor-pointer snap-start overflow-hidden rounded-2xl border border-white/10 bg-[#12122a] transition-all hover:ring-2 hover:ring-[rgba(244,196,52,0.5)]"
+            aria-label={`Held öffnen: ${hero.name}`}
+            className="group relative h-48 w-40 shrink-0 cursor-pointer snap-start overflow-hidden rounded-2xl border border-white/10 bg-[#12122a] transition-all hover:ring-2 hover:ring-[rgba(244,196,52,0.5)] focus:outline-none focus:ring-2 focus:ring-[rgba(244,196,52,0.5)] text-left"
           >
             {/* Avatar Placeholder / Image */}
             <div className="absolute inset-0 bg-linear-to-t from-[#0d0d1a] to-transparent z-10" />
@@ -54,7 +56,7 @@ export const HeroGallery: React.FC = () => {
                 {hero.name}
               </span>
             </div>
-          </div>
+          </button>
         ))}
 
         {mockHeroes.length === 0 && (
