@@ -51,7 +51,9 @@ export const STATIC_AUTH_STARS: readonly StaticAuthStar[] = [
 ] as const;
 
 // --- Feature Items for auth page ---
-export const AUTH_FEATURES = [
+export type AuthFeature = { icon: string; title: string; desc: string };
+
+export const AUTH_FEATURES: readonly AuthFeature[] = [
   {
     icon: '🌙',
     title: 'KI-Geschichten',
@@ -67,4 +69,4 @@ export const AUTH_FEATURES = [
     title: 'Deine Bibliothek',
     desc: 'Alle Bücher sicher gespeichert und jederzeit abrufbar.',
   },
-];
+] as const;
