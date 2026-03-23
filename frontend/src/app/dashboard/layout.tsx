@@ -9,7 +9,7 @@ const DashboardLayout: React.FC<
   const user = await getAuthUser();
 
   return (
-    <div className='min-h-screen bg-black text-white'>
+    <div className='min-h-screen flex flex-col'>
       <header className='border-b border-white/10 bg-white/5 backdrop-blur-sm'>
         <nav
           className='mx-auto flex max-w-6xl items-center justify-between px-6 py-4'

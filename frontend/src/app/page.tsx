@@ -30,7 +30,7 @@ const HomePage: React.FC = async () => {
   return (
     <>
       <Navbar isAuthenticated={isAuthenticated} />
-      <main className="bg-(--ts-bg-deep) text-white">
+      <main className="w-full">
         <HeroSection isAuthenticated={isAuthenticated} />
         <FeaturesSection />
         <StoriesSection isAuthenticated={isAuthenticated} />

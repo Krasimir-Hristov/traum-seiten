@@ -21,11 +21,6 @@ export const AuthForm: React.FC = () => {
   return (
     <section
       className='relative flex min-h-screen w-full pt-16 overflow-hidden'
-      style={{
-        // Single unified background for the whole page
-        background:
-          'linear-gradient(160deg, #060612 0%, #0b0b22 30%, #0e0b28 60%, #08081a 100%)',
-      }}
       aria-label={
         mode === 'login' ? 'Anmeldeformular' : 'Registrierungsformular'
       }
