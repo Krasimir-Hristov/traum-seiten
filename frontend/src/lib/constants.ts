@@ -1,7 +1,10 @@
+export type DecorativeStar = { top: string; left?: string; right?: string; size: number; delay?: string };
+export type StaticAuthStar = { top: string; left?: string; right?: string; size: number; opacity: number };
+
 /**
  * Shared decorative stars for magical background effects.
  */
-export const DECORATIVE_STARS = [
+export const DECORATIVE_STARS: readonly DecorativeStar[] = [
   { top: '12%', left: '15%', size: 3, delay: '0s' },
   { top: '20%', left: '80%', size: 2, delay: '1.2s' },
   { top: '35%', left: '10%', size: 2, delay: '0.8s' },
@@ -13,7 +16,7 @@ export const DECORATIVE_STARS = [
 ] as const;
 
 // --- Stars data for auth page (scattered across the whole page) ---
-export const STATIC_AUTH_STARS = [
+export const STATIC_AUTH_STARS: readonly StaticAuthStar[] = [
   { top: '5%', left: '3%', size: 2, opacity: 0.6 },
   { top: '8%', left: '18%', size: 1.5, opacity: 0.4 },
   { top: '6%', left: '38%', size: 2.5, opacity: 0.7 },

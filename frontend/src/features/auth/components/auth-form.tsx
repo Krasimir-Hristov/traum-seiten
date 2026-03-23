@@ -85,9 +85,8 @@ export const AuthForm: React.FC = () => {
           aria-hidden='true'
           style={{
             top: star.top,
-            left: 'left' in star ? star.left : undefined,
-            right:
-              'right' in star ? (star as { right: string }).right : undefined,
+            left: star.left,
+            right: star.right,
             width: `${star.size}px`,
             height: `${star.size}px`,
             background: 'white',
