@@ -132,7 +132,7 @@ export const AuthForm: React.FC = () => {
       {STARS.map((star, i) => (
         <div
           key={i}
-          className='absolute rounded-full pointer-events-none z-0'
+          className='absolute rounded-full pointer-events-none z-0 animate-heartbeat'
           aria-hidden='true'
           style={{
             top: star.top,
@@ -143,6 +143,8 @@ export const AuthForm: React.FC = () => {
             height: `${star.s}px`,
             background: 'white',
             opacity: star.o,
+            animationDelay: `${(i % 5) * 0.5}s`,
+            animationDuration: `${3 + (i % 3)}s`,
             boxShadow:
               star.s >= 2.5
                 ? `0 0 ${star.s * 2}px rgba(255,255,255,0.9)`

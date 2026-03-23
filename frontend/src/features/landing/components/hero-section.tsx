@@ -36,7 +36,7 @@ const HeroSection: React.FC<HeroSectionProps> = ({ isAuthenticated = false }) =>
       ].map((star, i) => (
         <div
           key={i}
-          className="pointer-events-none absolute animate-pulse rounded-full bg-white/70"
+          className="pointer-events-none absolute animate-heartbeat rounded-full bg-white"
           style={{
             top: star.top,
             left: star.left,
