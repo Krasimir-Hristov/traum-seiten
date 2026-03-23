@@ -4,9 +4,9 @@ import React, { useState } from 'react';
 import Image from 'next/image';
 import { LoginForm } from './login-form';
 import { RegisterForm } from './register-form';
+import { STATIC_AUTH_STARS, AUTH_FEATURES } from '@/lib/constants';
 
 export type AuthMode = 'login' | 'register';
-import { STATIC_AUTH_STARS, AUTH_FEATURES } from '@/lib/constants';
 
 
 // --- Main AuthForm ---
@@ -88,15 +88,15 @@ export const AuthForm: React.FC = () => {
             left: 'left' in star ? star.left : undefined,
             right:
               'right' in star ? (star as { right: string }).right : undefined,
-            width: `${star.s}px`,
-            height: `${star.s}px`,
+            width: `${star.size}px`,
+            height: `${star.size}px`,
             background: 'white',
-            opacity: star.o,
+            opacity: star.opacity,
             animationDelay: `${(i % 5) * 0.5}s`,
             animationDuration: `${3 + (i % 3)}s`,
             boxShadow:
-              star.s >= 2.5
-                ? `0 0 ${star.s * 2}px rgba(255,255,255,0.9)`
+              star.size >= 2.5
+                ? `0 0 ${star.size * 2}px rgba(255,255,255,0.9)`
                 : 'none',
           }}
         />

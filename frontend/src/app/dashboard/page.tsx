@@ -11,20 +11,8 @@ export const metadata: Metadata = {
 };
 
 const DashboardPage: React.FC = async () => {
-  let user;
-  try {
-    user = await getAuthUser();
-  } catch (error) {
-    console.error("Failed to authenticate user on dashboard:", error);
-    user = null;
-  }
-
-  if (!user) {
-    redirect('/login');
-  }
-
+  const user = await getAuthUser();
   const firstName = user?.user_metadata?.full_name?.split(' ')[0];
-  const greeting = firstName ? `Willkommen zurück, ${firstName}!` : 'Willkommen zurück, Magier!';
 
   return (
     <section className="space-y-12 pb-12 relative">
@@ -36,8 +24,8 @@ const DashboardPage: React.FC = async () => {
           style={{
             top: star.top,
             left: star.left,
-            width: star.size,
-            height: star.size,
+            width: `${star.size}px`,
+            height: `${star.size}px`,
             animationDelay: star.delay,
             animationDuration: '3s',
           }}

@@ -1,7 +1,6 @@
 import React from 'react';
 import Link from 'next/link';
 import { BookOpen } from 'lucide-react';
-import { Button } from '@/components/ui/button';
 
 export const RecentBooks: React.FC = () => {
   return (
